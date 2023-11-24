@@ -34,7 +34,7 @@ func InitWebservice(params *InitWebserviceParam) {
 		Conf: &params.Conf.MariaDBConfig,
 	})
 
-	db.AutoMigrate(&model.User{}, &model.Category{}, &model.Task{})
+	db.AutoMigrate(&model.User{}, &model.Category{}, &model.Product{}, &model.TransactionHistory{})
 
 	if err != nil {
 		log.Errorf("[webservice.go][InitWebservice] err init mysql :%+v", err)

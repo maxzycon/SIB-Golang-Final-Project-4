@@ -73,6 +73,8 @@ func (s *UserService) CreateUser(ctx context.Context, payload dto.PayloadCreateU
 		ID:        data.ID,
 		FullName:  data.FullName,
 		Email:     data.Email,
+		Password:  data.Password,
+		Balance:   data.Balance,
 		CreatedAt: data.CreatedAt,
 	}
 
@@ -149,6 +151,26 @@ func (s *UserService) UpdateUserProfile(ctx context.Context, id int, password st
 		log.Errorf("[user.go][FindByUsername] err repository at service :%+v", err)
 		return
 	}
+	return
+}
+
+func (s *UserService) UpdateUserBalance(ctx context.Context, id int, payload *dto.PayloadUpdateBalanceUser) (resp *int64, err error) {
+	data, err := s.UserRepository.FindById(ctx, id)
+	if err != nil {
+		log.Errorf("[user.go][CreateUser] err create user :%+v", err)
+		return
+	}
+	userPayload := model.User{
+		Balance: data.Balance + payload.Balance,
+	}
+
+	_, err = s.UserRepository.Update(ctx, &userPayload, id)
+	if err != nil {
+		log.Errorf("[user.go][UpdateUser] err create user :%+v", err)
+		return
+	}
+	var success int64 = 1
+	resp = &success
 	return
 }
 

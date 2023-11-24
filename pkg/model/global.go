@@ -10,7 +10,7 @@ type User struct {
 	Email    string `gorm:"not null;type:varchar(100);index:unique"`
 	Password string `gorm:"not null;type:varchar(100)"`
 	Role     uint   `gorm:"not null;"`
-	Balance  uint   `gorm:"not null;default:0"`
+	Balance  uint64 `gorm:"not null;default:0"`
 }
 
 type Category struct {

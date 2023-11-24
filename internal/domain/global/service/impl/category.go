@@ -6,7 +6,6 @@ import (
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/maxzycon/SIB-Golang-Final-Project-4/internal/domain/global/dto"
 	"github.com/maxzycon/SIB-Golang-Final-Project-4/pkg/authutil"
-	"github.com/maxzycon/SIB-Golang-Final-Project-4/pkg/constant/role"
 	"github.com/maxzycon/SIB-Golang-Final-Project-4/pkg/model"
 	"gorm.io/gorm"
 )
@@ -14,18 +13,8 @@ import (
 func (s *GlobalService) GetAllCategory(ctx context.Context, user *authutil.UserClaims) (resp []*dto.CategoryRow, err error) {
 	data := make([]*model.Category, 0)
 
-	if user.Role == role.ROLE_ADMIN {
-		if err = s.db.WithContext(ctx).Preload("Tasks").Model(&model.Category{}).Find(&data).Error; err != nil {
-			return
-		}
-	}
-
-	if user.Role == role.ROLE_MEMBER {
-		if err = s.db.WithContext(ctx).Preload("Tasks", &model.Task{
-			UserID: user.ID,
-		}).Model(&model.Category{}).Find(&data).Error; err != nil {
-			return
-		}
+	if err = s.db.WithContext(ctx).Preload("Product").Model(&model.Category{}).Find(&data).Error; err != nil {
+		return
 	}
 
 	resp = make([]*dto.CategoryRow, 0)
@@ -36,19 +25,17 @@ func (s *GlobalService) GetAllCategory(ctx context.Context, user *authutil.UserC
 			Type:      v.Type,
 			UpdatedAt: v.UpdatedAt,
 			CreatedAt: v.CreatedAt,
-			Task:      make([]*dto.TaskCategoryRow, 0),
 		}
 
-		for _, t := range v.Tasks {
-			tmp.Task = append(tmp.Task, &dto.TaskCategoryRow{
-				ID:          t.ID,
-				Title:       t.Title,
-				Description: t.Description,
-				UserID:      t.UserID,
-				CreatedAt:   t.CreatedAt,
-				UpdatedAt:   t.UpdatedAt,
+		for _, t := range v.Product {
+			tmp.Products = append(tmp.Products, dto.ProductCategoryRow{
+				ID:        t.ID,
+				Title:     t.Title,
+				Price:     t.Price,
+				Stock:     t.Stock,
+				CreatedAt: t.CreatedAt,
+				UpdatedAt: t.UpdatedAt,
 			})
-
 		}
 
 		resp = append(resp, tmp)
@@ -59,7 +46,8 @@ func (s *GlobalService) GetAllCategory(ctx context.Context, user *authutil.UserC
 
 func (s *GlobalService) CreateCategory(ctx context.Context, payload *dto.PayloadCategory, user *authutil.UserClaims) (resp *dto.CategoryCreteResponse, err error) {
 	entity := &model.Category{
-		Type: payload.Type,
+		Type:              payload.Type,
+		SoldProductAmount: 0,
 	}
 	if err = s.db.Create(&entity).Error; err != nil {
 		return
@@ -71,9 +59,10 @@ func (s *GlobalService) CreateCategory(ctx context.Context, payload *dto.Payload
 	}
 
 	resp = &dto.CategoryCreteResponse{
-		ID:        entity.ID,
-		Type:      entity.Type,
-		CreatedAt: entity.CreatedAt,
+		ID:                entity.ID,
+		Type:              entity.Type,
+		SoldProductAmount: entity.SoldProductAmount,
+		CreatedAt:         entity.CreatedAt,
 	}
 	return
 }
@@ -95,9 +84,10 @@ func (s *GlobalService) UpdateCategoryById(ctx context.Context, id int, payload 
 	}
 
 	resp = &dto.CategoryUpdateResponse{
-		ID:        data.ID,
-		Type:      data.Type,
-		UpdatedAt: data.UpdatedAt,
+		ID:                data.ID,
+		Type:              data.Type,
+		SoldProductAmount: data.SoldProductAmount,
+		UpdatedAt:         data.UpdatedAt,
 	}
 	return
 }

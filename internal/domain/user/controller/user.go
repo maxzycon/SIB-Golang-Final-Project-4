@@ -42,6 +42,28 @@ func (c *usersController) handerUpdateUserProfile(f *fiber.Ctx) (err error) {
 	return httputil.WriteSuccessResponseAffectedRow(f, resp)
 }
 
+func (c *usersController) handerTopupUser(f *fiber.Ctx) (err error) {
+	payload := dto.PayloadUpdateBalanceUser{}
+	err = f.BodyParser(&payload)
+	if err != nil {
+		err = errors.ErrBadRequest
+		log.Errorf("[handleUpdateUserProfile] err parse body")
+		return httputil.WriteErrorResponse(f, err)
+	}
+
+	user, err := authutil.GetCredential(f)
+	if err != nil {
+		log.Errorf("err parse user")
+		return httputil.WriteErrorResponse(f, err)
+	}
+	resp, err := c.userService.UpdateUserBalance(f.Context(), int(user.ID), &payload)
+	if err != nil {
+		log.Error("err update user profile controller")
+		return httputil.WriteErrorResponse(f, err)
+	}
+	return httputil.WriteSuccessResponseAffectedRow(f, resp)
+}
+
 func (c *usersController) handlerCreateUser(f *fiber.Ctx) (err error) {
 	payload := dto.PayloadCreateUser{}
 	err = f.BodyParser(&payload)

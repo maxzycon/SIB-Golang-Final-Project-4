@@ -19,6 +19,7 @@ type UserService interface {
 	Login(ctx context.Context, payload dto.PayloadLogin) (resp *dto.LoginRes, err error)
 	GetUserByUsername(ctx context.Context, username string) (resp *model.User, err error)
 
+	UpdateUserBalance(ctx context.Context, id int, payload *dto.PayloadUpdateBalanceUser) (resp *int64, err error)
 	UpdateUser(ctx context.Context, payload dto.PayloadUpdateUser, claims *authutil.UserClaims) (resp *dto.UserRowDetailUpdateRes, err error)
 	CreateUser(ctx context.Context, payload dto.PayloadCreateUser) (resp *dto.UserRowDetail, err error)
 }

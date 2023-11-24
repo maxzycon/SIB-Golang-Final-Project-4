@@ -16,6 +16,8 @@ type UserRowDetail struct {
 	ID        uint      `json:"id"`
 	FullName  string    `json:"full_name"`
 	Email     string    `json:"email"`
+	Password  string    `json:"password"`
+	Balance   uint64    `json:"balance"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
@@ -43,6 +45,10 @@ type PayloadCreateUser struct {
 	FullName string `json:"full_name"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
+}
+
+type PayloadUpdateBalanceUser struct {
+	Balance uint64 `json:"balance"`
 }
 
 type CreateUserRes struct {

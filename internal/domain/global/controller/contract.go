@@ -12,10 +12,10 @@ const (
 	CategorysBasePath   = "categories"
 	CategorysBaseIdPath = "categories/:id"
 
-	TasksBasePath                 = "tasks"
-	TasksBaseIdPath               = "tasks/:id"
-	TasksBaseUpdateStatusIdPath   = "tasks/update-status/:id"
-	TasksBaseUpdateCategoryIdPath = "tasks/update-category/:id"
+	ProductsBasePath                 = "Products"
+	ProductsBaseIdPath               = "Products/:id"
+	ProductsBaseUpdateStatusIdPath   = "Products/update-status/:id"
+	ProductsBaseUpdateCategoryIdPath = "Products/update-category/:id"
 )
 
 type GlobalControllerParams struct {
@@ -42,16 +42,14 @@ func New(params *GlobalControllerParams) *GlobalController {
 
 func (pc *GlobalController) Init() {
 	// ---- Categorys API
-	pc.v1.Get(CategorysBasePath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerGetAllCategory)
+	pc.v1.Get(CategorysBasePath, pc.middleware.Protected([]uint{role.ROLE_ADMIN}), pc.handlerGetAllCategory)
 	pc.v1.Post(CategorysBasePath, pc.middleware.Protected([]uint{role.ROLE_ADMIN}), pc.handlerCreateCategory)
 	pc.v1.Patch(CategorysBaseIdPath, pc.middleware.Protected([]uint{role.ROLE_ADMIN}), pc.handlerUpdateCategory)
 	pc.v1.Delete(CategorysBaseIdPath, pc.middleware.Protected([]uint{role.ROLE_ADMIN}), pc.handlerDeleteCategory)
 
-	// ---- Task API
-	pc.v1.Get(TasksBasePath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerGetAllTask)
-	pc.v1.Post(TasksBasePath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerCreateTask)
-	pc.v1.Put(TasksBaseIdPath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerUpdateTask)
-	pc.v1.Patch(TasksBaseUpdateStatusIdPath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerUpdateStatusTask)
-	pc.v1.Patch(TasksBaseUpdateCategoryIdPath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerUpdateCategoryTask)
-	pc.v1.Delete(TasksBaseIdPath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerDeleteTask)
+	// ---- Product API
+	pc.v1.Get(ProductsBasePath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerGetAllProduct)
+	pc.v1.Post(ProductsBasePath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerCreateProduct)
+	pc.v1.Put(ProductsBaseIdPath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerUpdateProduct)
+	pc.v1.Delete(ProductsBaseIdPath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerDeleteProduct)
 }

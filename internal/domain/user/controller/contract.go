@@ -14,7 +14,7 @@ const (
 	Update            = "/users/update-account"
 	GetById           = "/users/:id"
 	Delete            = "/users/delete-account"
-	GetUsersPaginated = "/users"
+	TopUP             = "/users/topup"
 	UpdateUserProfile = "/profile"
 
 	Login        = "/users/login"
@@ -47,6 +47,7 @@ func (pc *usersController) Init() {
 	pc.v1.Get(GetById, pc.middleware.Protected([]uint{role.ROLE_ADMIN, role.ROLE_MEMBER}), pc.handlerGetUserById)
 	pc.v1.Put(UpdateUserProfile, pc.middleware.Protected([]uint{role.ROLE_ADMIN, role.ROLE_MEMBER}), pc.handerUpdateUserProfile)
 
+	pc.v1.Patch(TopUP, pc.middleware.Protected([]uint{role.ROLE_ADMIN, role.ROLE_MEMBER}), pc.handerTopupUser)
 	pc.v1.Put(Update, pc.middleware.Protected([]uint{role.ROLE_ADMIN, role.ROLE_MEMBER}), pc.handlerUpdateUser)
 	pc.v1.Delete(Delete, pc.middleware.Protected([]uint{role.ROLE_ADMIN, role.ROLE_MEMBER}), pc.handlerDeleteUserById)
 	pc.v1.Post(Create, pc.handlerCreateUser)
