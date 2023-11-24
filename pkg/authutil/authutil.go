@@ -11,6 +11,7 @@ type UserClaims struct {
 	Email    string `json:"email"`
 	FullName string `json:"full_name"`
 	Role     uint   `json:"role"`
+	Balance  uint64 `json:"balance"`
 }
 
 func GetCredential(f *fiber.Ctx) (resp *UserClaims, err error) {

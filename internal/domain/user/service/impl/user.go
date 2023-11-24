@@ -154,7 +154,7 @@ func (s *UserService) UpdateUserProfile(ctx context.Context, id int, password st
 	return
 }
 
-func (s *UserService) UpdateUserBalance(ctx context.Context, id int, payload *dto.PayloadUpdateBalanceUser) (resp *int64, err error) {
+func (s *UserService) UpdateUserBalance(ctx context.Context, id int, payload *dto.PayloadUpdateBalanceUser) (resp *uint64, err error) {
 	data, err := s.UserRepository.FindById(ctx, id)
 	if err != nil {
 		log.Errorf("[user.go][CreateUser] err create user :%+v", err)
@@ -169,8 +169,8 @@ func (s *UserService) UpdateUserBalance(ctx context.Context, id int, payload *dt
 		log.Errorf("[user.go][UpdateUser] err create user :%+v", err)
 		return
 	}
-	var success int64 = 1
-	resp = &success
+	var balance uint64 = data.Balance + payload.Balance
+	resp = &balance
 	return
 }
 

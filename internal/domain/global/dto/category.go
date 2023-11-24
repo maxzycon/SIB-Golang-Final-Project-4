@@ -30,13 +30,13 @@ type PayloadUpdateCategory struct {
 type CategoryCreteResponse struct {
 	ID                uint      `json:"id"`
 	Type              string    `json:"type"`
-	SoldProductAmount uint64    `json:"sold_product_amoun"`
+	SoldProductAmount uint64    `json:"sold_product_amount"`
 	CreatedAt         time.Time `json:"created_at"`
 }
 
 type CategoryUpdateResponse struct {
 	ID                uint      `json:"id"`
 	Type              string    `json:"type"`
-	SoldProductAmount uint64    `json:"sold_product_amoun"`
+	SoldProductAmount uint64    `json:"sold_product_amount"`
 	UpdatedAt         time.Time `json:"updated_at"`
 }

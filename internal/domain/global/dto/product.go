@@ -7,7 +7,7 @@ type ProductRow struct {
 	Title      string    `json:"title"`
 	Price      uint64    `json:"price"`
 	Stock      uint64    `json:"stock"`
-	CategoryID uint      `json:"category_id"`
+	CategoryID uint      `json:"category_Id"`
 	CreatedAt  time.Time `json:"created_at"`
 }
 

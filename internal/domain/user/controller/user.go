@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -61,7 +62,7 @@ func (c *usersController) handerTopupUser(f *fiber.Ctx) (err error) {
 		log.Error("err update user profile controller")
 		return httputil.WriteErrorResponse(f, err)
 	}
-	return httputil.WriteSuccessResponseAffectedRow(f, resp)
+	return httputil.BaseMessageResponse(f, fmt.Sprintf("Your balance has been successfully updated to %d", *resp))
 }
 
 func (c *usersController) handlerCreateUser(f *fiber.Ctx) (err error) {

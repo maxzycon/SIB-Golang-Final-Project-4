@@ -19,4 +19,9 @@ type GlobalService interface {
 	CreateProduct(ctx context.Context, payload *dto.PayloadProduct, user *authutil.UserClaims) (resp *dto.ProductCreteResponse, err error)
 	UpdateProductById(ctx context.Context, id int, payload *dto.PayloadUpdateProduct) (resp *dto.ProductUpdateResponse, err error)
 	DeleteProductById(ctx context.Context, id int) (resp *int64, err error)
+
+	// ----- Transaction
+	CreateTransaction(ctx context.Context, payload *dto.PayloadTransaction, user *authutil.UserClaims) (resp *dto.ResponseCreateTransaction, err error)
+	GetAllUserTransaction(ctx context.Context, user *authutil.UserClaims) (resp []*dto.UserTransaction, err error)
+	GetAllMyTransaction(ctx context.Context, user *authutil.UserClaims) (resp []*dto.MyTransaction, err error)
 }

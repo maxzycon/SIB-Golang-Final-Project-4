@@ -12,10 +12,12 @@ const (
 	CategorysBasePath   = "categories"
 	CategorysBaseIdPath = "categories/:id"
 
-	ProductsBasePath                 = "Products"
-	ProductsBaseIdPath               = "Products/:id"
-	ProductsBaseUpdateStatusIdPath   = "Products/update-status/:id"
-	ProductsBaseUpdateCategoryIdPath = "Products/update-category/:id"
+	ProductsBasePath   = "products"
+	ProductsBaseIdPath = "products/:id"
+
+	TransactionBasePath     = "transactions"
+	MyTransactionBasePath   = "transactions/my-transactions"
+	UserTransactionBasePath = "transactions/user-transactions"
 )
 
 type GlobalControllerParams struct {
@@ -49,7 +51,12 @@ func (pc *GlobalController) Init() {
 
 	// ---- Product API
 	pc.v1.Get(ProductsBasePath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerGetAllProduct)
-	pc.v1.Post(ProductsBasePath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerCreateProduct)
-	pc.v1.Put(ProductsBaseIdPath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerUpdateProduct)
-	pc.v1.Delete(ProductsBaseIdPath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerDeleteProduct)
+	pc.v1.Post(ProductsBasePath, pc.middleware.Protected([]uint{role.ROLE_ADMIN}), pc.handlerCreateProduct)
+	pc.v1.Put(ProductsBaseIdPath, pc.middleware.Protected([]uint{role.ROLE_ADMIN}), pc.handlerUpdateProduct)
+	pc.v1.Delete(ProductsBaseIdPath, pc.middleware.Protected([]uint{role.ROLE_ADMIN}), pc.handlerDeleteProduct)
+
+	// ----- Transaction
+	pc.v1.Post(TransactionBasePath, pc.middleware.Protected([]uint{role.ROLE_MEMBER, role.ROLE_ADMIN}), pc.handlerCreateTransaction)
+	pc.v1.Get(MyTransactionBasePath, pc.middleware.Protected([]uint{role.ROLE_MEMBER}), pc.handlerGetAllMyTransaction)
+	pc.v1.Get(UserTransactionBasePath, pc.middleware.Protected([]uint{role.ROLE_ADMIN}), pc.handlerGetAllUserTransaction)
 }

@@ -13,7 +13,7 @@ import (
 func (s *GlobalService) GetAllProduct(ctx context.Context, user *authutil.UserClaims) (resp []*dto.ProductRow, err error) {
 	data := make([]*model.Product, 0)
 
-	if err = s.db.WithContext(ctx).Preload("User").Model(&model.Product{}).Find(&data).Error; err != nil {
+	if err = s.db.WithContext(ctx).Model(&model.Product{}).Find(&data).Error; err != nil {
 		return
 	}
 

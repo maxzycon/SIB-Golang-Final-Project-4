@@ -51,6 +51,7 @@ func (m *GlobalMiddleware) Protected(roleAccess []uint) fiber.Handler {
 				FullName: userRow.FullName,
 				Email:    userRow.Email,
 				Role:     userRow.Role,
+				Balance:  userRow.Balance,
 			}
 			// ----- set user to all request with protected
 			ctx.Locals("user_profile", resp)

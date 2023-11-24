@@ -16,8 +16,8 @@ var (
 	ErrNotFoundGorm   = gorm.ErrRecordNotFound
 
 	ErrInvalidUsernameOrPassword = errors.New("invalid username or password")
-	ErrStatusAlreadyCheckIn      = errors.New("invalid status already checkin")
-	ErrStatusAlreadyCheckOut     = errors.New("invalid status already check out")
+	ErrInvalidBalance            = errors.New("balance < target price")
+	ErrInvalidStock              = errors.New("invalid stock")
 	ErrInvalidPassword           = errors.New("invalid password")
 	ErrInvalidUsername           = errors.New("invalid username")
 	ErrUsernameUsed              = errors.New("username already used")
@@ -37,8 +37,8 @@ var errorMapping = map[error]dto.ErrorResponse{
 	ErrUnauthorized:           {HTTPCode: 401, Code: 1003, Message: ErrUnauthorized.Error()},
 	ErrUnparseableRequestBody: {HTTPCode: 400, Code: 1004, Message: ErrUnparseableRequestBody.Error()},
 	ErrNotFound:               {HTTPCode: 404, Code: 1005, Message: ErrNotFound.Error()},
-	ErrStatusAlreadyCheckIn:   {HTTPCode: 404, Code: 1005, Message: ErrStatusAlreadyCheckIn.Error()},
-	ErrStatusAlreadyCheckOut:  {HTTPCode: 404, Code: 1005, Message: ErrStatusAlreadyCheckOut.Error()},
+	ErrInvalidBalance:         {HTTPCode: 400, Code: 1005, Message: ErrInvalidBalance.Error()},
+	ErrInvalidStock:           {HTTPCode: 400, Code: 1005, Message: ErrInvalidStock.Error()},
 	ErrNotFoundGorm:           {HTTPCode: 404, Code: 1006, Message: ErrNotFoundGorm.Error()},
 	ErrForbidden:              {HTTPCode: 403, Code: 1007, Message: ErrForbidden.Error()},
 
