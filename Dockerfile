@@ -1,7 +1,6 @@
 FROM golang:1.20-bullseye as build
 
-RUN apt-get update -y
-RUN apt-get install -y pkg-config 
+RUN apt-get update -y && apt-get upgrade -y
 
 WORKDIR /app
 
@@ -22,8 +21,9 @@ FROM ubuntu:22.04
 WORKDIR /app
 
 # Web service
-EXPOSE 8082
+EXPOSE 8092
 
+RUN apt-get update -y && apt-get upgrade -y
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Jakarta
 RUN apt-get install -y tzdata
